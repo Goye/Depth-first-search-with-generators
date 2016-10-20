@@ -1,11 +1,5 @@
 "use strict";
 
-function *iterator(node) {
-  if (node.left) yield *iterator(node.left);
-  yield node.val;
-  if (node.right) yield *iterator(node.right);
-}
-
 //Create node
 class Node {
     constructor(val) {
@@ -23,7 +17,13 @@ class Node {
       }
     }
 
-    [Symbol.iterator]() { return iterator(this); }
+    *_iterator(node) {
+      if (node.left) yield* this._iterator(node.left);
+      yield node.val;
+      if (node.right) yield* this._iterator(node.right);
+    }
+
+    [Symbol.iterator]() { return this._iterator(this); }
 }
 
 //prefill node
