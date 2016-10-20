@@ -33,6 +33,6 @@ function *iterator(node) {
   if (node.right) yield *iterator(node.right);
 }
 
-let out = {};
+let out = [];
 out[Symbol.iterator] = iterator.bind(null,root);
-console.log('In order = ', out);
+console.log('In order = ', [...out]);
