@@ -1,5 +1,11 @@
 "use strict";
 
+function *iterator(node) {
+  if (node.left) yield *iterator(node.left);
+  yield node.val;
+  if (node.right) yield *iterator(node.right);
+}
+
 //Create node
 class Node {
     constructor(val) {
@@ -16,6 +22,8 @@ class Node {
         else this.left.add(val);
       }
     }
+
+    [Symbol.iterator]() { return iterator(this); }
 }
 
 //prefill node
@@ -27,12 +35,4 @@ root.add(6);
 root.add(9);
 root.add(13);
 
-function *iterator(node) {
-  if (node.left) yield *iterator(node.left);
-  yield node.val;
-  if (node.right) yield *iterator(node.right);
-}
-
-let out = [];
-out[Symbol.iterator] = iterator.bind(null,root);
-console.log('In order = ', [...out]);
+console.log('In order = ', [...root]);
